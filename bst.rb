@@ -231,11 +231,27 @@ class Tree
       depth += 1
   end
 
-  def balanced?
-    #difference between hieghts of left and right subtrees of every node is not more than 1
+  def balanced?(node = @root)
+    #difference between heights of left and right subtrees of every node is not more than 1
+    return nil if @root.nil?
+
+    l_height = height(node.left)
+    r_height = height(node.right)
+
+    if (l_height - r_height).abs > 1
+      puts "Not balanced"
+      return false
+    end
+
+    balanced?(node.left) && balanced?(node.right)
+
   end
 
   def rebalance
-    #use traversal method to provide a new array to build_tree method
+    #use a traversal method to provide a new array to build_tree method
+    new_tree = []
+    inorder(|node| node.value >> new_tree )
+    new_tree.sort.uniq
+    @root = build_tree(new_tree)
   end
 end
